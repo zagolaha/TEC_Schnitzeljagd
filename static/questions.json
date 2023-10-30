@@ -1,0 +1,25 @@
+{
+    "questions": [
+        {
+            "question": "Wie viel Schrauben hat das TEC?",
+            "answer_1": "24 000",
+            "answer_2": "4 500",
+            "answer_3": "500",
+            "answer_4": "1 200"
+        },
+        {
+            "question": "Wie viel Holz ist verbaut?",
+            "answer_1": "24 000",
+            "answer_2": "4 500",
+            "answer_3": "500",
+            "answer_4": "1 200"
+        },
+        {
+            "question": "Warum ist das TEC so gut?",
+            "answer_1": "24 000",
+            "answer_2": "4 500",
+            "answer_3": "500",
+            "answer_4": "1 200"
+        }
+    ]
+}
