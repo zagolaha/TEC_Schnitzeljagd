@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    <script src="/static/qr-scanner.umd.min.js"></script>
+    <video></video>
+
+    <script>
+        const scanner = new QrScanner(
+            videoElem,
+            result => console.log(result),
+            {
+                maxScansPerSecond: 1
+            }, // or `returnDetailedScanResult: true´ for no options
+        );
+    </script>
+{% endblock %}

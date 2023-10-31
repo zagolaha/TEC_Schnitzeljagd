@@ -7,7 +7,7 @@
             <h2 class="text-white font-bold text-5xl font-roboto">Wie viele Schrauben hat das TEC?</h2>
         </div>
     </div>
-    <div class="w-screen h-3/5 absolute bottom-0 overflow-hidden">
+    <div class="w-screen h-3/5 absolute bottom-0">
         <form id="answerForm" action="{{ url_for('handle_data') }}" method="post" class="flex flex-col gap-y-24 w-full h-full justify-center items-center">
             <input type="hidden" id="buttonClicked" name="buttonClicked" value="">
             {%for i in range(4)%} 
