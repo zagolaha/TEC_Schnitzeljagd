@@ -9,13 +9,9 @@ answers = ["24 000", "2 453", "4 500", "7 500"]
 
 questions = json.load(open("static/questions.json"))
 
-@app.route("/")
-def index():
+@app.route("/<num>")
+def index(num):
     return render_template("question.html", btn_style=answer_btn, content=answers)
-
-@app.route("/deez/<num>")
-def deez(num):
-    return num
 
 @app.route("/handle_data", methods=['POST']) # rename data to answer
 def handle_data():
