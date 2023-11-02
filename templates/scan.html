@@ -4,12 +4,16 @@
     <video id="videoElem"></video>
 
     <script>
-        const scanner = new QrScanner(
+        const QRscanner = new QrScanner(
             document.getElementById('videoElem'),
-            result => console.log(result),
+            result => location.href("http://localhost:5000/question/" + result.data),
             {
-                maxScansPerSecond: 1
+                maxScansPerSecond: 4,
+                highlightScanRegion: true,
+                highlightCodeOutline: true
             }, // or `returnDetailedScanResult: true´ for no options
         );
+        QRscanner.setInversionMode("both");
+        QRscanner.start();
     </script>
 {% endblock %}

@@ -1,6 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import json
-from flask import request
+
 app = Flask(__name__)
 
 # styling components
@@ -13,7 +13,11 @@ questions = json.load(open("static/questions.json"))
 def index():
     return render_template("question.html", btn_style=answer_btn, content=answers)
 
-@app.route("/handle_data", methods=['POST'])
+@app.route("/deez/<num>")
+def deez(num):
+    return num
+
+@app.route("/handle_data", methods=['POST']) # rename data to answer
 def handle_data():
     answer = request.form.get("buttonClicked")
     return answer
@@ -24,4 +28,4 @@ def scan():
     return render_template("scan.html")
 
 if __name__ == '__main__':
-   app.run(ssl_context='adhoc')
+   app.run(ssl_context='adhoc') # Use adhoc SSL to serve over HTTPS
