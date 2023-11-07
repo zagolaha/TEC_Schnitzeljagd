@@ -2,15 +2,23 @@
 {% block content %}
     <script src="/static/qr-scanner.umd.min.js"></script>
     <video id="videoElem"></video>
-
+    <form id="scan-form" method="post" action="{{url_for('question')}}">
+        <input type="hidden" value="" id="qr-value"  name="qr-value">
+    </form>
     <script>
+        function sendData(data){
+            document.getElementById("qr-value").value = data;
+            document.getElementById("scan-form").submit();
+        }
+
         const QRscanner = new QrScanner(
             document.getElementById('videoElem'),
-            result => location.href("http://localhost:5000/question/" + result.data),
+            result => sendData(result.data),
             {
                 maxScansPerSecond: 4,
                 highlightScanRegion: true,
                 highlightCodeOutline: true
+                //location.href("http://localhost:5000/question/" + result.data)
             }, // or `returnDetailedScanResult: true´ for no options
         );
         QRscanner.setInversionMode("both");

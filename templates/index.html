@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="flex flex-col img-bg w-screen h-screen bg-center bg-cover bg-no-repeat">
+    <style>
+        .img-bg {
+            background-image: url("{{url_for('static', filename='raw_bg.png')}}");
+        }
+    </style>
+
+    <div class="flex justify-center items-center w-full h-full">
+        <div class="flex flex-col justify-center w-3/4 h-2/4 rounded-lg bg-black backdrop-blur-sm"
+            style="background-color: rgba(0, 0, 0, 0.7);">
+            <div class="flex justify-center items-center h-1/5 rounded-t-lg"
+                style="background-color: rgba(0, 0, 0, 0.5);">
+                <h3 class="text-white  p-5 text-2xl">TEC-Schnitzeljagd</h3>
+            </div>
+            <div class="flex justify-center items-center text-center h-4/5">
+                <p class="text-white text-2xl">Suche im TEC nach versteckten QR-Codes, scanne sie und beantworte die Fragen.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="absolute bottom-0 flex justify-center items-end w-full">
+        <button onclick="redirectUser()"
+            class="m-4 hover:drop-shadow-xl w-3/4 p-3 bg-Lightgreen opacity-90 backdrop-blur-lg text-white rounded-md text-xl">Starte
+            die Reise</button>
+    </div>
+</div>
+<script>
+    function redirectUser(){
+        location.replace("http://localhost:5000/scan");
+    }
+</script>
+{% endblock %}
