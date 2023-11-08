@@ -12,6 +12,49 @@
 
 <body style="overflow-x: hidden;">
 	{% block content %}{% endblock %}
+	<script>
+		localStorage.clear();
+		window.onload = function () {
+			if (typeof localStorage.getItem("min") !== 'undefined' && typeof localStorage.getItem("sec") !== 'undefined' && localStorage.getItem("min") != null && localStorage.getItem("sec") != null) {
+				var min = localStorage.getItem("min");
+				var sec = localStorage.getItem("sec");
+			}
+			else {
+				var min = "00";
+				var sec = "30";
+			}
+			var time;
+
+			var interval = setInterval(function () {
+				if (sec == "00" && min == "00") {
+					location.href = "{{url_for('end')}}";
+					clearInterval(interval);
+				}
+				localStorage.setItem("min", min);
+				localStorage.setItem("sec", sec);
+				time = min + ":" + sec;
+				display = document.getElementById("time");
+				if(display !== null){
+					document.getElementById("time").innerHTML = time;
+				}
+				if (sec == 0) {
+					if (min != 0) {
+						min--;
+						sec = 59;
+						if (min < 10) {
+							min = "0" + min;
+						}
+					}
+				}
+				else {
+					sec--;
+					if (sec < 10) {
+						sec = "0" + sec;
+					}
+				}
+			}, 1000);
+		}
+	</script>
 </body>
 
 </html>

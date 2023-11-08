@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-
+<div class="flex justify-center items-center absolute top-0 w-full h-1/12">
+	<div class="bg-Darkblue w-1/2 h-full text-center text-white rounded-b-lg">
+		<p class="text-lg"><span id="time"></span></p>
+	</div>
+</div>
 <div class="flex flex-col img-bg w-screen h-screen bg-center bg-cover bg-no-repeat">
     <style>
         .img-bg {
@@ -16,7 +20,8 @@
                 <h3 class="text-white  p-5 text-2xl">TEC-Schnitzeljagd</h3>
             </div>
             <div class="flex justify-center items-center text-center h-4/5">
-                <p class="text-white text-2xl">Suche im TEC nach versteckten QR-Codes, scanne sie und beantworte die Fragen.</p>
+                <p class="text-white text-2xl">Suche im TEC nach versteckten QR-Codes, scanne sie und beantworte die
+                    Fragen.</p>
             </div>
         </div>
     </div>
@@ -26,10 +31,12 @@
             class="m-4 hover:drop-shadow-xl w-3/4 p-3 bg-Lightgreen opacity-90 backdrop-blur-lg text-white rounded-md text-xl">Starte
             die Reise</button>
     </div>
+    <form id="start-form" style="display: none;" action="{{ url_for('start') }}" method="post"></form>
 </div>
 <script>
     function redirectUser() {
-        location.replace("/scan");
+        document.getElementById("start-form").submit();
+        // start timer here
     }
 </script>
 {% endblock %}
