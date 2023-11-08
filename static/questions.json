@@ -1,22 +1,22 @@
 {
     "questions": [
         {
-            "question": "Wie viel Schrauben hat das TEC?",
+            "question": "Wie viele Schrauben sind im TEC verbaut?",
             "answers": ["24 000", "4 500", "500", "1 200"],
             "solution": 0,
-            "explanation": "Erklaerung..."
+            "explanation": "Erklärung..."
         },
         {
-            "question": "Wie viele Personen passen in TEC?",
+            "question": "Wie viele Personen passen in die Aula?",
             "answers": ["200", "300", "600", "400"],
             "solution": 3,
-            "explanation": "Erklaerung..."
+            "explanation": "Erklärung..."
         },
         {
             "question": "Wie viel Geld hat TRUMPF in das TEC investiert?",
             "answers": ["12,1 Mio. Euro", "14,5 Mio. Euro", "10,5 Mio. Euro", "13,6 Mio. Euro"],
             "solution": 1,
-            "explanation": "Erklaerung..."
+            "explanation": "Erklärung..."
         }
     ]
 }

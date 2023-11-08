@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.answerBtn {
+		@apply w-10/12 h-14 shadow-lg text-xl md:text-2xl font-semibold text-center rounded-lg bg-Lightgray
+				transition-all ease-in duration-500;
+	}
+}

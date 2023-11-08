@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = "cf7afb909ccf7fc842f44eaf70bfbc9360fa80832e3f9b457586a74b46d0e35f"
 
 # styling components
-answer_btn = "shadow-lg text-xl md:text-2xl font-semibold text-center rounded-lg w-10/12 bg-Lightgray h-14 transition-all ease-in duration-500"
+btn_style = "shadow-lg text-xl md:text-2xl font-semibold text-center rounded-lg w-10/12 bg-Lightgray h-14 transition-all ease-in duration-500"
 json_questions = json.load(open("static/questions.json"))
 quiz_length = len(json_questions["questions"])
 
@@ -55,7 +55,7 @@ def question():
     if checkIDs(str(qr_val)):
         return redirect(url_for("error", error="Dieser Code wurde bereits abgescannt"))
     json_values = json_questions["questions"][qr_val]
-    return render_template("question.html", qr_id = qr_val, btn_style=answer_btn, max_questions = quiz_length, prog=getStringScore(), json=json_values)
+    return render_template("question.html", qr_id = qr_val, btn_style=btn_style, max_questions = quiz_length, prog=getStringScore(), json=json_values)
 
 @app.route('/resetSession')
 def logout():

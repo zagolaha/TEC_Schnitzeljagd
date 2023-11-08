@@ -2,36 +2,41 @@
 {% block content %}
 
 <div class="flex flex-col bg-gradient-to-b from-Lightblue to-Darkblue w-screen h-screen">
-    <div class="flex flex-col gap-3 justify-center items-center h-1/2 md:h-2/5">
-        <div class="w-10/12 h-1/12 bg-Lightgray rounded-lg">
-            <div id="progress-bar" class="h-1/12 bg-Lightgreen rounded-lg transition-all ease-in duration-500" style="width: {{ prog }};">
-                &nbsp;
-            </div>
-        </div>
-        <div id="question-box" 
-            class="transition-all ease-in duration-500 md:h-3/4 h-1/2 w-10/12 rounded-lg img-bg bg-no-repeat bg-center bg-cover flex justify-center items-center text-center">
-            <style>
-                .img-bg {
-                    background-image: url("{{url_for('static', filename='question_bg.jpg')}}");
-                }
-            </style>
-            <h2 id="question" class="transition-all ease-in duration-500 text-center text-white font-semibold text-2xl md:text-3xl">{{ json['question'] }}
-            </h2>
-        </div>
-    </div>
+	<div class="flex flex-col gap-3 justify-center items-center h-1/2 md:h-2/5">
+		<div class="w-10/12 h-1/12 bg-Lightgray rounded-lg">
+			<div id="progress-bar" class="h-1/12 bg-Lightgreen rounded-lg transition-all ease-in duration-500" style="width: {{ prog }};">
+				&nbsp;
+			</div>
+		</div>
+		<div id="question-box" 
+			class="transition-all ease-in duration-500 md:h-3/4 h-1/2 w-10/12 rounded-lg img-bg bg-no-repeat bg-center bg-cover flex justify-center items-center text-center">
+			<style>
+				.img-bg {
+					background-image: url("{{ url_for('static', filename='question_bg.jpg') }}");
+				}
+			</style>
+			<h2 id="question" class="transition-all ease-in duration-500 text-center text-white font-semibold text-2xl md:text-3xl">{{ json['question'] }}
+			</h2>
+		</div>
+	</div>
 
-    <div class="flex w-screen h-1/2 md:h-3/5 transition-all ease-in duration-600">
-        <div class="flex flex-col gap-3 w-full h-full items-center justify-center">
-            {% for i in range(4) %}
-                <button id="{{ i }}" onclick="submitButton('{{ i }}')" class="{{btn_style}}">{{json['answers'][i] }}</button>
-            {% endfor %}
-            <button onclick="submitAnswer()" id="next_question" style="visibility: hidden;" class="transition-all ease-in duration-600 text-white shadow-xl text-xl md:text-2xl font-semibold text-center rounded-lg w-10/12 bg-Mediumblue h-14">Weiter</button>
-        </div>
-        <form style="display: none;" id="answerForm" action="{{ url_for('handle_data') }}" method="post">
-            <input id="answer" type="hidden" name="answer" value="">
-            <input type="hidden" name="qr-id" value="{{ qr_id  }}">
-        </form>
-    </div>
+	<div class="flex w-screen h-1/2 md:h-3/5 transition-all ease-in duration-600">
+		<div class="flex flex-col gap-3 w-full h-full items-center justify-center">
+			{% for i in range(4) %}
+				<button id="{{ i }}"
+						class="answerBtn"
+						onclick="submitButton('{{ i }}')">{{json['answers'][i] }}</button>
+			{% endfor %}
+			<button onclick="submitAnswer()" id="next_question" style="visibility: hidden;"
+					class="transition-all ease-in duration-600 text-white shadow-xl text-xl md:text-2xl font-semibold text-center rounded-lg w-10/12 bg-Mediumblue h-14">
+				Weiter
+			</button>
+		</div>
+		<form style="display: none;" id="answerForm" action="{{ url_for('handle_data') }}" method="post">
+			<input id="answer" type="hidden" name="answer" value="">
+			<input type="hidden" name="qr-id" value="{{ qr_id  }}">
+		</form>
+	</div>
 </div>
 
 <script>
@@ -45,31 +50,31 @@ var next_question = document.getElementById("next_question");
 var submitted = false;
 
 function setProgress(){
-    return ((score/max_questions)*100).toString() + "%";
+	return ((score/max_questions)*100).toString() + "%";
 }
 
 function submitButton(buttonValue) {
-    if (!submitted) {
-        submitted = true;
-        var btn = document.getElementById(buttonValue);
-        document.getElementById(solution.toString()).style.backgroundColor = "#94C11C";
-        if (solution == buttonValue) {
-            question.innerHTML = "Richtige Antwort! <br><br> {{ json['explanation'] }}";
-            question_box.style.boxShadow = "0px 20px 30px -10px rgb(148, 193, 28)";
-            document.getElementById("answer").value = 1;
-            score++;
-        } else {
-            question.innerHTML = "Falsche Antwort! <br><br> {{ json['explanation'] }}";
-            question_box.style.boxShadow = "0px 20px 30px -10px rgb(192, 0, 0)";
-            document.getElementById(buttonValue).style.backgroundColor = "rgb(192, 0, 0)";
-            document.getElementById("answer").value = 0;
-        }
-        document.getElementById("progress-bar").style.width = setProgress();
-        next_question.style.visibility = "visible";
-    }
+	if (!submitted) {
+		submitted = true;
+		var btn = document.getElementById(buttonValue);
+		document.getElementById(solution.toString()).style.backgroundColor = "#94C11C";
+		if (solution == buttonValue) {
+			question.innerHTML = "Richtige Antwort! <br><br> {{ json['explanation'] }}";
+			question_box.style.boxShadow = "0px 20px 30px -10px rgb(148, 193, 28)";
+			document.getElementById("answer").value = 1;
+			score++;
+		} else {
+			question.innerHTML = "Falsche Antwort! <br><br> {{ json['explanation'] }}";
+			question_box.style.boxShadow = "0px 20px 30px -10px rgb(192, 0, 0)";
+			document.getElementById(buttonValue).style.backgroundColor = "rgb(192, 0, 0)";
+			document.getElementById("answer").value = 0;
+		}
+		document.getElementById("progress-bar").style.width = setProgress();
+		next_question.style.visibility = "visible";
+	}
 }
 function submitAnswer(){
-    document.getElementById("answerForm").submit();
+	document.getElementById("answerForm").submit();
 }
 </script>
 
