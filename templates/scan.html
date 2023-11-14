@@ -21,6 +21,8 @@
                 //location.href("http://localhost:5000/question/" + result.data)
             }, // or `returnDetailedScanResult: true´ for no options
         );
+        //qrScanner.setCamera('environment');
+        // Funktioniert nicht, da kein https
         QRscanner.setInversionMode("both");
         QRscanner.start();
     </script>

@@ -8,51 +8,54 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://cdn.tailwindcss.com"></script>
 	<link href="/static/output.css" rel="stylesheet">
+	<script>
+		if (typeof localStorage.getItem("timer_start") === 'undefined' || localStorage.getItem("timer_start") == null) {
+			localStorage.setItem("timer_start", "0");
+        	localStorage.setItem("sec", "00");
+        	localStorage.setItem("min", "00");
+		}
+	</script>
 </head>
 
 <body style="overflow-x: hidden;">
 	{% block content %}{% endblock %}
 	<script>
-		localStorage.clear();
 		window.onload = function () {
-			if (typeof localStorage.getItem("min") !== 'undefined' && typeof localStorage.getItem("sec") !== 'undefined' && localStorage.getItem("min") != null && localStorage.getItem("sec") != null) {
+			if (localStorage.getItem("timer_start") === "1") {
 				var min = localStorage.getItem("min");
 				var sec = localStorage.getItem("sec");
-			}
-			else {
-				var min = "00";
-				var sec = "30";
-			}
-			var time;
+				var interval = setInterval(function () {
+					
+					// check time
+					if (sec == localStorage.getItem("max_sec") && min ==  localStorage.getItem("max_min")) {
+						clearInterval(interval);
+						localStorage.setItem("timer_start", "0");
+						window.location.href = "{{url_for('end')}}";
+					}
+					// refresh value in storage
+					localStorage.setItem("min", min);
+					localStorage.setItem("sec", sec);
 
-			var interval = setInterval(function () {
-				if (sec == "00" && min == "00") {
-					location.href = "{{url_for('end')}}";
-					clearInterval(interval);
-				}
-				localStorage.setItem("min", min);
-				localStorage.setItem("sec", sec);
-				time = min + ":" + sec;
-				display = document.getElementById("time");
-				if(display !== null){
-					document.getElementById("time").innerHTML = time;
-				}
-				if (sec == 0) {
-					if (min != 0) {
-						min--;
-						sec = 59;
-						if (min < 10) {
-							min = "0" + min;
+					var time = min + ":" + sec;
+					var display = document.getElementById("time");
+					if (display !== null) {
+						document.getElementById("time").innerHTML = time;
+					}
+					if (sec == 59) {
+							min++;
+							sec = "00";
+							if (min < 10) {
+								min = "0" + min;
+							}
+					}
+					else {
+						sec++;
+						if (sec < 10) {
+							sec = "0" + sec;
 						}
 					}
-				}
-				else {
-					sec--;
-					if (sec < 10) {
-						sec = "0" + sec;
-					}
-				}
-			}, 1000);
+				}, 1000);
+			}
 		}
 	</script>
 </body>

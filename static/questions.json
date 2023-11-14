@@ -19,5 +19,5 @@
             "explanation": "Erklärung..."
         }
     ],
-    "time" : 3600
+    "time" : ["30", "00"]
 }

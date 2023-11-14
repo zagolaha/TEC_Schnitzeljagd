@@ -6,13 +6,18 @@ app = Flask(__name__)
 app.secret_key = "cf7afb909ccf7fc842f44eaf70bfbc9360fa80832e3f9b457586a74b46d0e35f"
 # styling components
 btn_style = "shadow-lg text-xl md:text-2xl font-semibold text-center rounded-lg w-10/12 bg-Lightgray h-14 transition-all ease-in duration-500"
-json_questions = json.load(open("static/questions.json"))
+json_questions = json.load(open("static/questions.json", encoding='utf-8'))
 quiz_length = len(json_questions["questions"])
 
 def getStringScore():
     global quiz_length
     if 'counter' in session:
         return str((session['counter']/quiz_length)*100) + "%"
+
+def getStringOverallScore():
+    global quiz_length
+    if 'counter' in session:
+        return str(session['counter']) + "/" + str(quiz_length)
 
 def checkIDs(qr_id):
      if 'answer_ids' in session:
@@ -32,18 +37,22 @@ def index():
         session['counter'] = 0
     if 'answer_ids' not in session:
         session['answer_ids'] = ""
-    return render_template("index.html")
+    max_min = json_questions["time"][0]
+    max_sec = json_questions["time"][1]
+    return render_template("index.html", max_min = max_min, max_sec = max_sec)
 
 # Verarbeite antwort
 @app.route("/handle_answer", methods=['POST']) # rename data to answer
 def handle_data():
     answer = int(request.form.get("answer"))
     qr_id = request.form.get("qr-id")
+    # right answer check
     if answer == 1:
         session['counter'] += 1
     addID(qr_id)
+    # final answer check
     if checkEnd():
-        end_time = time.time() -session['start_time']
+        end_time = time.time() - session['start_time']
         end_time = round(end_time)
         return render_template("end.html", ende = str(end_time))
     else:
@@ -59,15 +68,16 @@ def scan():
 @app.route("/question",methods=['POST'])
 def question():
     try:
-        qr_val = int(request.form.get("qr-value"))
+        qr_id = int(request.form.get("qr-value"))
     except:
         return redirect(url_for("error", error="Dieser QR-Code ist falsch"))
-    if checkIDs(str(qr_val)):
+    if checkIDs(str(qr_id)):
         return redirect(url_for("error", error="Dieser Code wurde bereits abgescannt"))
-    json_values = json_questions["questions"][qr_val]
-    return render_template("question.html", qr_id = qr_val, btn_style=btn_style, max_questions = quiz_length, prog=getStringScore(), json=json_values)
+    json_values = json_questions["questions"][qr_id]
+    return render_template("question.html", qr_id = qr_id, max_questions = quiz_length, 
+                           progress=getStringScore(), json=json_values, score = getStringOverallScore())
 
-# clear session
+# clear session (remove when needed)
 @app.route('/resetSession')
 def logout():
    session.pop('counter', None)
@@ -91,7 +101,7 @@ def error():
 # Endseite
 @app.route("/end")
 def end():
-    end_time = time.time() - session['start_time'];
+    end_time = time.time() - session['start_time']
     return render_template("end.html", ende = str(end_time))
 
 
