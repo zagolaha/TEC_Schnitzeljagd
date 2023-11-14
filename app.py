@@ -107,4 +107,6 @@ def end():
 
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0', debug = True,ssl_context='adhoc') # Use adhoc SSL to serve over HTTPS
+    app.run(host='0.0.0.0', debug=True, ssl_context='adhoc') # Use adhoc SSL to serve over HTTPS
+    # TODO: Adhoc certificates are invalid due to the missing CA signature.
+    # To resolve this, a certificate with a domain name is needed.
