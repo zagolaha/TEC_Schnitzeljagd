@@ -1,14 +1,18 @@
-from flask import Flask, render_template, request, session, redirect, url_for, Response
+from flask import Flask, render_template, request, session, redirect, url_for, Response, g
 import json
 import time
+import sqlite3
 
 app = Flask(__name__)
 app.secret_key = "cf7afb909ccf7fc842f44eaf70bfbc9360fa80832e3f9b457586a74b46d0e35f"
+DATABASE = 'static/leaderboard.db'
+
 # styling components
 btn_style = "shadow-lg text-xl md:text-2xl font-semibold text-center rounded-lg w-10/12 bg-Lightgray h-14 transition-all ease-in duration-500"
 json_questions = json.load(open("static/questions.json", encoding='utf-8'))
 quiz_length = len(json_questions["questions"])
 
+# functions
 def getStringScore():
     global quiz_length
     if 'counter' in session:
@@ -29,6 +33,18 @@ def checkEnd():
 def addID(qr_id):
     if 'answer_ids' in session:
         session['answer_ids'] += qr_id+"/"
+
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+# functions
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
 # Startseite
 @app.route("/")
@@ -104,7 +120,13 @@ def end():
     end_time = time.time() - session['start_time']
     return render_template("end.html", ende = str(end_time))
 
-
+# Leaderboard
+@app.route("/leaderboard")
+def leaderboard():
+    conn = get_db_connection()
+    posts = conn.execute('SELECT * FROM leaderboard ORDER BY score DESC').fetchall()
+    conn.close()
+    return render_template("leaderboard.html", data=posts)
 
 if __name__ == '__main__':
     context = ('localhost.pem', 'localhost-key.pem')

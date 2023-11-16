@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="raw-bg w-screen h-screen  bg-center bg-cover bg-no-repeat">
+    <style>
+        .raw-bg {
+            background-image: url("{{url_for('static', filename='question_bg.jpg')}}");
+        }
+    </style>
+    <div class="text-white w-full h-5/6 grid grid-cols-4 gap-4 overflow-y-auto max-h-5/6 backdrop-blur-sm"
+    style="background-color: rgba(0, 0, 0, 0.7)">
+        <div class="p-1 flex justify-center items-center text-xl font-semibold">Rang</div>
+        <div class="p-1 flex justify-center items-center text-xl font-semibold">Name</div>
+        <div class="p-1 flex justify-center items-center text-xl font-semibold">Zeit</div>
+        <div class="p-1 flex justify-center items-center text-xl font-semibold">Punktzahl</div>
+        <script>
+            var counter = 1;
+        </script>
+        {% for dataset in data %}
+            <div id="{{ dataset['ID'] }}" class="flex justify-center items-center"></div>
+            <div class="flex justify-center items-center text-lg">{{ dataset['username'] }}</div>
+            <div class="flex justify-center items-center text-lg">{{ dataset['time'] }}</div>
+            <div class="flex justify-center items-center text-lg">{{ dataset['score'] }}</div>
+            <script>
+                document.getElementById("{{ dataset['ID'] }}").innerHTML = counter;
+                counter++;
+            </script>
+        {%endfor%}
+    </div>
+    <div class="flex justify-center h-1/6 items-center w-full flex-col gap-0">
+        <button onclick="goHome()"
+        class="m-4 hover:drop-shadow-xl w-3/4 p-3 bg-Lightgreen opacity-90 backdrop-blur-lg text-white rounded-md text-xl">Home</button>
+    </div>
+</div>
+<script>
+    function goHome(){
+        window.location.href = "{{ url_for('index') }}"
+    }
+</script>
+<style>
+::-webkit-scrollbar {
+  display: none;
+}
+</style>
+{% endblock %}

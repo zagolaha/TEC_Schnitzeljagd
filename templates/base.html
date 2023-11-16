@@ -6,15 +6,9 @@
 	<meta charset="UTF-8">
 	<title>TEC Schnitzeljagd</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 	<script src="https://cdn.tailwindcss.com"></script>
 	<link href="/static/output.css" rel="stylesheet">
-	<script>
-		if (typeof localStorage.getItem("timer_start") === 'undefined' || localStorage.getItem("timer_start") == null) {
-			localStorage.setItem("timer_start", "0");
-        	localStorage.setItem("sec", "00");
-        	localStorage.setItem("min", "00");
-		}
-	</script>
 </head>
 
 <body style="overflow-x: hidden;">
@@ -57,6 +51,10 @@
 				}, 1000);
 			}
 		}
+	</script>
+		<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+	<script>
+	  AOS.init();
 	</script>
 </body>
 

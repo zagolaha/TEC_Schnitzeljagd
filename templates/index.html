@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="flex justify-center items-center absolute top-0 w-full h-1/12">
+<div data-aos="fade-down"  data-aos-duration="800" class="flex justify-center items-center absolute top-0 w-full h-1/12">
     <div class="bg-Darkblue w-1/3 h-full text-center text-white rounded-b-lg">
         <p class="text-lg text-center font-semibold"><span id="time">0:00</span></p>
     </div>
@@ -13,7 +13,7 @@
     </style>
 
     <div class="flex justify-center items-center w-full h-full">
-        <div class="flex flex-col justify-center w-3/4 h-2/4 rounded-lg bg-black backdrop-blur-sm"
+        <div data-aos="fade-up" data-aos-duration="1000" class="flex flex-col justify-center w-3/4 h-2/4 rounded-lg bg-black backdrop-blur-sm"
             style="background-color: rgba(0, 0, 0, 0.7);">
             <div class="flex justify-center items-center h-1/5 rounded-t-lg"
                 style="background-color: rgba(0, 0, 0, 0.5);">
@@ -26,22 +26,36 @@
         </div>
     </div>
 
-    <div class="absolute bottom-0 flex justify-center items-end w-full">
+    <div class="absolute bottom-0 flex justify-center items-center w-full flex-col gap-0">
         <button onclick="redirectUser()"
             class="m-4 hover:drop-shadow-xl w-3/4 p-3 bg-Lightgreen opacity-90 backdrop-blur-lg text-white rounded-md text-xl">Starte
             die Reise</button>
+        <button disabled id="Leaderboard" onclick="toLeaderboard()"
+            class="m-4 hover:drop-shadow-xl w-3/4 p-3 bg-Darkblue opacity-90 backdrop-blur-lg text-white rounded-md text-xl">
+        Leaderboard</button>
     </div>
     <form id="start-form" style="display: none;" action="{{ url_for('start') }}" method="post"></form>
 </div>
 <script>
-    function redirectUser() {
-        localStorage.setItem("max_sec", "{{ max_sec }}");
-        localStorage.setItem("max_min", "{{ max_min }}");
+    var leaderboard = document.getElementById("Leaderboard");
+    window.onload = function () {
+        if(localStorage.getItem("start_timer") == "1"){
+            leaderboard.style.backgroundColor = "rgb(148,193,28)";
+        }
+    }
 
+    function toLeaderboard(){
+        location.href = "{{ url_for('end') }}";
+    }
+    function redirectUser() {
         if (localStorage.getItem("timer_start") === "0") {
             localStorage.setItem("timer_start", "1")
+            localStorage.setItem("min", "00");
+            localStorage.setItem("sec", "00");
+            localStorage.setItem("max_sec", "{{ max_sec }}");
+            localStorage.setItem("max_min", "{{ max_min }}");
         }
-
+        leaderboard.disabled = false;
         document.getElementById("start-form").submit();
     }
 </script>
