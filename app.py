@@ -58,7 +58,7 @@ def index():
     return render_template("index.html", max_min = max_min, max_sec = max_sec)
 
 # Verarbeite antwort
-@app.route("/handle_answer", methods=['POST']) # rename data to answer
+@app.route("/handle_answer", methods=['POST'])
 def handle_data():
     answer = int(request.form.get("answer"))
     qr_id = request.form.get("qr-id")
@@ -72,8 +72,12 @@ def handle_data():
         end_time = round(end_time)
         return render_template("end.html", ende = str(end_time))
     else:
-        return redirect(url_for("scan"))
-    # verarbeite antwort hier
+        return render_template("zwischenBildschirm.html")
+
+# for debugging purposes, remove on deployment
+@app.route("/zwischenBildschirm")
+def zwischen_bildschirm():
+    return render_template("zwischenBildschirm.html")
 
 # Scanseite
 @app.route("/scan")
@@ -131,5 +135,3 @@ def leaderboard():
 if __name__ == '__main__':
     context = ('localhost.pem', 'localhost-key.pem')
     app.run(host='0.0.0.0', debug=True, ssl_context=context)
-    # TODO: Adhoc certificates are invalid due to the missing CA signature.
-    # To resolve this, a certificate with a domain name is needed.
