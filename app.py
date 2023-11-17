@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, Response, g
+import datetime
 import json
 import time
 import sqlite3
@@ -53,6 +54,8 @@ def index():
         session['counter'] = 0
     if 'answer_ids' not in session:
         session['answer_ids'] = ""
+    if 'username' not in session:
+        session['username'] = "joa"
     max_min = json_questions["time"][0]
     max_sec = json_questions["time"][1]
     return render_template("index.html", max_min = max_min, max_sec = max_sec)
@@ -68,9 +71,7 @@ def handle_data():
     addID(qr_id)
     # final answer check
     if checkEnd():
-        end_time = time.time() - session['start_time']
-        end_time = round(end_time)
-        return render_template("end.html", ende = str(end_time))
+        return redirect(url_for("end"))
     else:
         return render_template("zwischenBildschirm.html")
 
@@ -103,6 +104,7 @@ def logout():
    session.pop('counter', None)
    session.pop('answer_ids', None)
    session.pop('start_time', None)
+   session.pop("username", None)
    return redirect(url_for('index'))
 
 # Zeiterfassung start
@@ -121,8 +123,15 @@ def error():
 # Endseite
 @app.route("/end")
 def end():
-    end_time = time.time() - session['start_time']
-    return render_template("end.html", ende = str(end_time))
+    if checkEnd():
+        seconds = time.time() - session['start_time']
+        minutes = round(seconds // 60)
+        seconds %= 60
+        seconds = round(seconds, 2)
+        ende = str(minutes) + ":" + str(seconds)
+        return render_template("end.html", score=getStringOverallScore(),time=ende)
+    else:
+        return redirect(url_for("error", error="Bitte beende erst das Quiz"))
 
 # Leaderboard
 @app.route("/leaderboard")

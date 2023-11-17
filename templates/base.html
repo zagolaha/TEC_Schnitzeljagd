@@ -10,52 +10,13 @@
 	<script src="https://cdn.tailwindcss.com"></script>
 	<link href="/static/output.css" rel="stylesheet">
 </head>
-
 <body style="overflow-x: hidden;">
 	{% block content %}{% endblock %}
 	<script>
-		window.onload = function () {
-			if (localStorage.getItem("timer_start") === "1") {
-				var min = localStorage.getItem("min");
-				var sec = localStorage.getItem("sec");
-				var interval = setInterval(function () {
-					
-					// check time
-					if (sec == localStorage.getItem("max_sec") && min ==  localStorage.getItem("max_min")) {
-						clearInterval(interval);
-						localStorage.setItem("timer_start", "0");
-						window.location.href = "{{url_for('end')}}";
-					}
-					// refresh value in storage
-					localStorage.setItem("min", min);
-					localStorage.setItem("sec", sec);
-
-					var time = min + ":" + sec;
-					var display = document.getElementById("time");
-					if (display !== null) {
-						document.getElementById("time").innerHTML = time;
-					}
-					if (sec == 59) {
-							min++;
-							sec = "00";
-							if (min < 10) {
-								min = "0" + min;
-							}
-					}
-					else {
-						sec++;
-						if (sec < 10) {
-							sec = "0" + sec;
-						}
-					}
-				}, 1000);
-			}
+		function goEnd(){
+			location.href = "{{url_for('end')}}";
 		}
 	</script>
-		<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-	<script>
-	  AOS.init();
-	</script>
+	<script src="{{ url_for('static', filename='timer.js') }}"></script>
 </body>
-
 </html>

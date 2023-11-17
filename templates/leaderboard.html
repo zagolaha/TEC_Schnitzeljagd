@@ -1,44 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="raw-bg w-screen h-screen  bg-center bg-cover bg-no-repeat">
+<div class="raw-bg w-screen h-screen flex justify-center items-center bg-center bg-cover bg-no-repeat">
     <style>
         .raw-bg {
             background-image: url("{{url_for('static', filename='question_bg.jpg')}}");
         }
     </style>
-    <div class="text-white w-full h-5/6 grid grid-cols-4 gap-4 overflow-y-auto max-h-5/6 backdrop-blur-sm"
-    style="background-color: rgba(0, 0, 0, 0.7)">
-        <div class="p-1 flex justify-center items-center text-xl font-semibold">Rang</div>
-        <div class="p-1 flex justify-center items-center text-xl font-semibold">Name</div>
-        <div class="p-1 flex justify-center items-center text-xl font-semibold">Zeit</div>
-        <div class="p-1 flex justify-center items-center text-xl font-semibold">Punktzahl</div>
+    <div class="text-white w-3/4 h-3/4 flex flex-col overflow-x-hidden overflow-y-auto max-h-5/6 backdrop-blur-sm p-1 rounded-lg"
+        style="background-color: rgba(0, 0, 0, 0.7)">
+        <div class="grid grid-cols-4 gap-4 mb-4">
+            <div class="leaderboard-th">Rang</div>
+            <div class="leaderboard-th">Name</div>
+            <div class="leaderboard-th">Zeit</div>
+            <div class="leaderboard-th">Punktzahl</div>
+        </div>
         <script>
             var counter = 1;
         </script>
         {% for dataset in data %}
+        <div class="grid grid-cols-4 gap-4 h-16 rounded-lg">
             <div id="{{ dataset['ID'] }}" class="flex justify-center items-center"></div>
-            <div class="flex justify-center items-center text-lg">{{ dataset['username'] }}</div>
-            <div class="flex justify-center items-center text-lg">{{ dataset['time'] }}</div>
-            <div class="flex justify-center items-center text-lg">{{ dataset['score'] }}</div>
-            <script>
-                document.getElementById("{{ dataset['ID'] }}").innerHTML = counter;
-                counter++;
-            </script>
+            <div class="leaderboard-td">{{ dataset['username'] }}</div>
+            <div class="leaderboard-td">{{ dataset['time'] }}</div>
+            <div class="leaderboard-td">{{ dataset['score'] }}</div>
+        </div>
+        <script>
+            document.getElementById("{{ dataset['ID'] }}").innerHTML = counter;
+            counter++;
+        </script>
         {%endfor%}
     </div>
-    <div class="flex justify-center h-1/6 items-center w-full flex-col gap-0">
-        <button onclick="goHome()"
-        class="m-4 hover:drop-shadow-xl w-3/4 p-3 bg-Lightgreen opacity-90 backdrop-blur-lg text-white rounded-md text-xl">Home</button>
+    <div class="nav-btn-div">
+        <button onclick="goHome()" class="nav-btn">Home</button>
     </div>
 </div>
 <script>
-    function goHome(){
+    function goHome() {
         window.location.href = "{{ url_for('index') }}"
     }
 </script>
 <style>
-::-webkit-scrollbar {
-  display: none;
-}
+    ::-webkit-scrollbar {
+        display: none;
+    }
 </style>
 {% endblock %}
