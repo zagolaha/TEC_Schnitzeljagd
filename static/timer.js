@@ -42,7 +42,8 @@ window.onload = function () {
             }
 
         }, 1000);
-    }else if(localStorage.getItem("start_timer") == "0"){
+
+    } else if (localStorage.getItem("start_timer") == "0") {
         localStorage.setItem("min", "00");
         localStorage.setItem("sec", "00");
     }

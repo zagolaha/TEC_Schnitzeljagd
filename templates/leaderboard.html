@@ -18,14 +18,24 @@
             var counter = 1;
         </script>
         {% for dataset in data %}
-        <div class="grid grid-cols-4 gap-4 h-16 rounded-lg">
-            <div id="{{ dataset['ID'] }}" class="flex justify-center items-center"></div>
-            <div class="leaderboard-td">{{ dataset['username'] }}</div>
-            <div class="leaderboard-td">{{ dataset['time'] }}</div>
-            <div class="leaderboard-td">{{ dataset['score'] }}</div>
-        </div>
+            {% if user_id == dataset['ID'] %}
+                <div class="grid grid-cols-4 gap-4 h-16 rounded-lg bg-Lightblue">
+                    <div id="{{ dataset['ID'] }}" class="flex justify-center items-center"></div>
+                    <div class="leaderboard-td">{{ dataset['username'] }}</div>
+                    <div class="leaderboard-td">{{ dataset['time'] }}</div>
+                    <div class="leaderboard-td">{{ dataset['score'] }}</div>
+                </div>
+            {% else %}
+            <div class="grid grid-cols-4 gap-4 h-16 rounded-lg">
+                <div id="{{ dataset['ID'] }}" class="flex justify-center items-center"></div>
+                <div class="leaderboard-td">{{ dataset['username'] }}</div>
+                <div class="leaderboard-td">{{ dataset['time'] }}</div>
+                <div class="leaderboard-td">{{ dataset['score'] }}</div>
+            </div>
+            {% endif %}
         <script>
             document.getElementById("{{ dataset['ID'] }}").innerHTML = counter;
+            console.log("{{ user_id }}");
             counter++;
         </script>
         {%endfor%}
