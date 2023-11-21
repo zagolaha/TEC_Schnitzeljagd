@@ -64,7 +64,7 @@ def get_db_connection():
 
 def insertUser(name, time, score):
     try:
-        conn = sqlite3.connect(DATABASE)
+        conn = get_db_connection()
         cursor = conn.cursor()
         sql = "INSERT INTO leaderboard(username, time, score) VALUES (?, ?, ?)"
         data = (name, time, score)
@@ -82,10 +82,13 @@ def getLeaderboard():
     return leaderboard
 
 def getUserID():
-    conn = get_db_connection()
-    user_id = conn.execute('SELECT ID FROM leaderboard WHERE username = ?', (session['username'],)).fetchone()
-    conn.close()
-    return user_id['ID']
+    if 'username' in session:
+        conn = get_db_connection()
+        user_id = conn.execute('SELECT ID FROM leaderboard WHERE username = ?', (session['username'],)).fetchone()
+        conn.close()
+        return user_id['ID']
+    else:
+        return None
 
 def UserAlreadyExist(username):
     if(len(username) >= 2):
@@ -95,7 +98,7 @@ def UserAlreadyExist(username):
         if len(user) > 0:
             return "Benutzername bereits vergeben"
         else:
-            return "Benutzername is frei"
+            return "Benutzername ist frei"
     else:
         return "Benutzername muss min. 2 Zeichen haben"
 # functions
@@ -196,7 +199,6 @@ def leaderboard():
     leaderboard = getLeaderboard()
     if user_id == None:
         return redirect(url_for("error", error="Benutzername nicht gefunden"))
-    
     return render_template("leaderboard.html", data=leaderboard, user_id = user_id)
 
 # validate user

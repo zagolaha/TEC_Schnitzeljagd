@@ -21,6 +21,7 @@ window.onload = function () {
                 var display = document.getElementById("time");
                 if (display !== null) {
                     
+                    
                     var min = Math.floor(time_diff / 60);
                     var sec = Math.floor(time_diff % 60);
 
@@ -30,6 +31,12 @@ window.onload = function () {
 
                     if(sec < 10){
                         sec = "0" + sec.toString();
+                    }
+
+                    var danger_time = 1*60;
+
+                    if(time_diff >= danger_time){
+                       document.getElementById("time-bg").style.backgroundColor = "rgb(153,27,27)";
                     }
                     display.innerHTML = min + ":" + sec;
                 }
