@@ -161,10 +161,7 @@ def question():
 # clear session (remove when needed)
 @app.route('/resetSession')
 def resetSession():
-   session.pop('counter', None)
-   session.pop('answer_ids', None)
-   session.pop('start_time', None)
-   session.pop("username", None)
+   session.clear()
    return redirect(url_for('index'))
 
 # Zeiterfassung start
@@ -188,9 +185,16 @@ def end():
     if checkEnd() or checkTime():
         seconds = time.time() - session['start_time']
         insertUser(session['username'], getTimeFormat(seconds), 45)
-        return render_template("end.html", score=getStringOverallScore(),time=getTimeFormat(seconds))
+        return render_template("end.html", score=getStringOverallScore(), time=getTimeFormat(seconds))
     else:
         return redirect(url_for("error", error="Bitte beende erst das Quiz"))
+    
+@app.route("/abort")
+def abort():
+    # copy & pasted from above, change both occurences if needed
+    seconds = time.time() - session['start_time']
+    insertUser(session['username'], getTimeFormat(seconds), 45)
+    return render_template("end.html", score=getStringOverallScore(), time=getTimeFormat(seconds))
 
 # Leaderboard
 @app.route("/leaderboard")
