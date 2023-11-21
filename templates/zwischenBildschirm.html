@@ -44,8 +44,9 @@
 				return;
 			}
 
-			// stop timer
-			// go to end screen
+			// set end timestamp
+			sessionStorage.setItem('end_time', Date.now());
+			location.href = "/abort";
 		}
 	</script>
 {% endblock %}
