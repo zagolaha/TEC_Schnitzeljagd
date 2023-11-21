@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, Response, g
+from flask import Flask, render_template, request, session, redirect, url_for, Response, g, jsonify
 import datetime
 import json
 import time
@@ -86,6 +86,18 @@ def getUserID():
     user_id = conn.execute('SELECT ID FROM leaderboard WHERE username = ?', (session['username'],)).fetchone()
     conn.close()
     return user_id['ID']
+
+def UserAlreadyExist(username):
+    if(len(username) >= 2):
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM leaderboard WHERE username = ?', (username,)).fetchall()
+        conn.close()
+        if len(user) > 0:
+            return "Benutzername bereits vergeben"
+        else:
+            return "Benutzername is frei"
+    else:
+        return "Benutzername muss min. 2 Zeichen haben"
 # functions
 
 @app.teardown_appcontext
@@ -186,6 +198,13 @@ def leaderboard():
         return redirect(url_for("error", error="Benutzername nicht gefunden"))
     
     return render_template("leaderboard.html", data=leaderboard, user_id = user_id)
+
+# validate user
+@app.route("/validUser", methods=['POST'])
+def validUser():
+    username = request.get_json().get('username', '')
+    is_taken = UserAlreadyExist(username)
+    return jsonify({'taken': is_taken})
 
 if __name__ == '__main__':
     context = ('localhost.pem', 'localhost-key.pem')

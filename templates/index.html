@@ -24,28 +24,42 @@
                     <p class="text-white text-xl">Suche im TEC nach versteckten QR-Codes, scanne sie und beantworte die
                         Fragen.</p>
                 </div>
-                <form action="{{ url_for('start') }}" class="h-1/2 w-full flex justify-center items-center" id="start-form" method="post">
-                    <input name="username" id="username_input" class="bg-black shadow h-1/4 text-lg appearance-none border rounded w-3/4 py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Benutzername">
+                <form action="{{ url_for('start') }}" class="h-1/2 w-full flex flex-col justify-center items-center"
+                    id="start-form" method="post">
+                    <input name="username" id="username_input"
+                        class="bg-black shadow h-1/4 text-lg appearance-none border rounded w-3/4 py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+                        type="text" placeholder="Benutzername">
+                    <p class="text-sm" id="hint"></p>
                 </form>
             </div>
         </div>
     </div>
-
     <div class="nav-btn-div">
-        <button id="start_use" onclick="redirectUser()" class="nav-btn">Starte die Reise</button>
+        <button disabled id="start_use" onclick="redirectUser()" class="nav-btn">Starte die Reise</button>
     </div>
 </div>
+<script src="{{ url_for('static', filename='user-validation.js') }}"></script>
 <script>
+    var user_input = document.getElementById("username_input");
+
+    user_input.addEventListener("keyup", function () {
+        validateUser("{{ url_for('validUser') }}", user_input);
+    });
+
+    function startTimer() {
+        localStorage.setItem("start_timer", "1");
+        localStorage.setItem("start_time", Math.floor(Date.now() / 1000));
+        var sec = parseInt("{{ max_sec }}");
+        var min = parseInt("{{ max_min }}");
+        var max_time = sec + (min * 60);
+        localStorage.setItem("max_time", max_time);
+    }
+
     function redirectUser() {
         if (localStorage.getItem("start_timer") == "0") {
-            localStorage.setItem("start_timer", "1");
-            localStorage.setItem("start_time", Math.floor(Date.now() / 1000));
-            var sec = parseInt("{{ max_sec }}");
-            var min = parseInt("{{ max_min }}");
-            var max_time = sec + (min*60);
-            localStorage.setItem("max_time", max_time);
+            startTimer();
+            document.getElementById("start-form").submit();
         }
-        document.getElementById("start-form").submit();
     }
 </script>
 {% endblock %}
