@@ -78,7 +78,7 @@ def handle_data():
 # for debugging purposes, remove on deployment
 @app.route("/zwischenBildschirm")
 def zwischen_bildschirm():
-    return render_template("zwischenBildschirm.html")
+    return render_template("zwischenBildschirm.html", score=getStringOverallScore())
 
 # Scanseite
 @app.route("/scan")
