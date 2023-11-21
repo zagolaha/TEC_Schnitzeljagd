@@ -3,13 +3,13 @@ import datetime
 import json
 import time
 import sqlite3
+import html
 
 app = Flask(__name__)
 app.secret_key = "cf7afb909ccf7fc842f44eaf70bfbc9360fa80832e3f9b457586a74b46d0e35f"
 DATABASE = 'static/leaderboard.db'
 
 # styling components
-btn_style = "shadow-lg text-xl md:text-2xl font-semibold text-center rounded-lg w-10/12 bg-Lightgray h-14 transition-all ease-in duration-500"
 json_questions = json.load(open("static/questions.json", encoding='utf-8'))
 quiz_length = len(json_questions["questions"])
 
@@ -35,6 +35,14 @@ def addID(qr_id):
     if 'answer_ids' in session:
         session['answer_ids'] += qr_id+"/"
 
+def checkTime():
+    if 'start_time' in session:
+        user_time = int(json_questions["time"][0])*60 + int(json_questions["time"][1])
+        if round(time.time() - session['start_time']) >= round(user_time):
+            return True 
+    return False     
+        
+
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
@@ -54,8 +62,6 @@ def index():
         session['counter'] = 0
     if 'answer_ids' not in session:
         session['answer_ids'] = ""
-    if 'username' not in session:
-        session['username'] = "joa"
     max_min = json_questions["time"][0]
     max_sec = json_questions["time"][1]
     return render_template("index.html", max_min = max_min, max_sec = max_sec)
@@ -100,7 +106,7 @@ def question():
 
 # clear session (remove when needed)
 @app.route('/resetSession')
-def logout():
+def resetSession():
    session.pop('counter', None)
    session.pop('answer_ids', None)
    session.pop('start_time', None)
@@ -110,9 +116,11 @@ def logout():
 # Zeiterfassung start
 @app.route('/start',methods=['POST'])
 def start():
-   if 'start_time' not in session:
+    if 'start_time' not in session:
        session['start_time'] = time.time()
-   return redirect(url_for('scan'))
+    if 'username' not in session:
+       session['username'] = html.escape(request.form.get("username"))
+    return redirect(url_for('scan'))
 
 # Hinweisseite
 @app.route("/error")
@@ -123,11 +131,15 @@ def error():
 # Endseite
 @app.route("/end")
 def end():
-    if checkEnd():
+    if checkEnd() or checkTime():
         seconds = time.time() - session['start_time']
         minutes = round(seconds // 60)
         seconds %= 60
-        seconds = round(seconds, 2)
+        seconds = round(seconds)
+        if minutes < 10:
+            minutes = "0" + str(minutes)
+        if seconds < 10:
+            seconds = "0" + str(seconds)
         ende = str(minutes) + ":" + str(seconds)
         return render_template("end.html", score=getStringOverallScore(),time=ende)
     else:
@@ -138,8 +150,11 @@ def end():
 def leaderboard():
     conn = get_db_connection()
     posts = conn.execute('SELECT * FROM leaderboard ORDER BY score DESC').fetchall()
+    user_id = conn.execute('SELECT ID FROM leaderboard WHERE username = ?', (session['username'],)).fetchone()
+    if user_id == None:
+        return redirect(url_for("error", error="Benutzername nicht gefunden"))
     conn.close()
-    return render_template("leaderboard.html", data=posts)
+    return render_template("leaderboard.html", data=posts, user_id = user_id['ID'])
 
 if __name__ == '__main__':
     context = ('localhost.pem', 'localhost-key.pem')

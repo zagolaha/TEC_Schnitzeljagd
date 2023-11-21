@@ -22,7 +22,7 @@
 		@apply p-4 h-1/3 w-full flex justify-center items-center;
 	}
 	.end-main-div-child{
-		@apply flex-col w-10/12 h-full rounded-lg backdrop-blur-sm text-white;
+		@apply flex-col w-3/4 h-full rounded-lg backdrop-blur-sm text-white;
 	}
 	.end-inline-div{
 		@apply h-1/4 w-full flex justify-center items-center text-xl rounded-t-lg  backdrop-blur-sm;

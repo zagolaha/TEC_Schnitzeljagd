@@ -46,8 +46,8 @@
             class="m-4 hover:drop-shadow-xl w-3/4 p-3 bg-Lightgreen opacity-90 backdrop-blur-lg text-white rounded-md text-xl">
             Zum Leaderboard</button>
 </div>
-
 <script>
+    localStorage.setItem("start_timer", "0");
     function toLeaderboard(){
         window.location.href = "{{ url_for('leaderboard') }}";
     }
