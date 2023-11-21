@@ -38,15 +38,54 @@ def addID(qr_id):
 def checkTime():
     if 'start_time' in session:
         user_time = int(json_questions["time"][0])*60 + int(json_questions["time"][1])
-        if round(time.time() - session['start_time']) >= round(user_time):
+        time_diff = time.time() - session['start_time']
+        if time_diff >= user_time:
             return True 
-    return False     
+    return False    
+
+def getTimeFormat(seconds):
+        minutes = round(seconds // 60)
+        seconds %= 60
+        seconds = round(seconds)
+        if minutes < 10:
+            minutes = "0" + str(minutes)
+        if seconds < 10:
+            seconds = "0" + str(seconds)
+        if seconds == 60:
+            minutes += 1
+            seconds = 0
+        return str(minutes) + ":" + str(seconds)
         
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
+
+def insertUser(name, time, score):
+    try:
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+        sql = "INSERT INTO leaderboard(username, time, score) VALUES (?, ?, ?)"
+        data = (name, time, score)
+        cursor.execute(sql, data)
+        conn.commit()
+        cursor.close()
+        conn.close()
+    except sqlite3.Error as error:
+        return False
+
+def getLeaderboard():
+    conn = get_db_connection()
+    leaderboard = conn.execute('SELECT * FROM leaderboard ORDER BY score DESC').fetchall()
+    conn.close()
+    return leaderboard
+
+def getUserID():
+    conn = get_db_connection()
+    user_id = conn.execute('SELECT ID FROM leaderboard WHERE username = ?', (session['username'],)).fetchone()
+    conn.close()
+    return user_id['ID']
 # functions
 
 @app.teardown_appcontext
@@ -76,7 +115,7 @@ def handle_data():
         session['counter'] += 1
     addID(qr_id)
     # final answer check
-    if checkEnd():
+    if checkEnd() or checkTime():
         return redirect(url_for("end"))
     else:
         return render_template("zwischenBildschirm.html")
@@ -133,28 +172,20 @@ def error():
 def end():
     if checkEnd() or checkTime():
         seconds = time.time() - session['start_time']
-        minutes = round(seconds // 60)
-        seconds %= 60
-        seconds = round(seconds)
-        if minutes < 10:
-            minutes = "0" + str(minutes)
-        if seconds < 10:
-            seconds = "0" + str(seconds)
-        ende = str(minutes) + ":" + str(seconds)
-        return render_template("end.html", score=getStringOverallScore(),time=ende)
+        insertUser(session['username'], getTimeFormat(seconds), 45)
+        return render_template("end.html", score=getStringOverallScore(),time=getTimeFormat(seconds))
     else:
         return redirect(url_for("error", error="Bitte beende erst das Quiz"))
 
 # Leaderboard
 @app.route("/leaderboard")
 def leaderboard():
-    conn = get_db_connection()
-    posts = conn.execute('SELECT * FROM leaderboard ORDER BY score DESC').fetchall()
-    user_id = conn.execute('SELECT ID FROM leaderboard WHERE username = ?', (session['username'],)).fetchone()
+    user_id = getUserID()
+    leaderboard = getLeaderboard()
     if user_id == None:
         return redirect(url_for("error", error="Benutzername nicht gefunden"))
-    conn.close()
-    return render_template("leaderboard.html", data=posts, user_id = user_id['ID'])
+    
+    return render_template("leaderboard.html", data=leaderboard, user_id = user_id)
 
 if __name__ == '__main__':
     context = ('localhost.pem', 'localhost-key.pem')

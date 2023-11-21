@@ -2,7 +2,7 @@
 {% block content %}
 <div class="flex justify-center items-center absolute top-0 w-full h-1/12">
     <div class="bg-Darkblue w-1/3 h-full text-center text-white rounded-b-lg">
-        <p class="text-lg text-center font-semibold"><span id="time">0:00</span></p>
+        <p class="text-lg text-center font-semibold"><span id="time">00:00</span></p>
     </div>
 </div>
 <div class="flex flex-col img-bg w-screen h-screen bg-center bg-cover bg-no-repeat">
@@ -39,8 +39,11 @@
     function redirectUser() {
         if (localStorage.getItem("start_timer") == "0") {
             localStorage.setItem("start_timer", "1");
-            localStorage.setItem("max_sec", "{{ max_sec }}");
-            localStorage.setItem("max_min", "{{ max_min }}");
+            localStorage.setItem("start_time", Math.floor(Date.now() / 1000));
+            var sec = parseInt("{{ max_sec }}");
+            var min = parseInt("{{ max_min }}");
+            var max_time = sec + (min*60);
+            localStorage.setItem("max_time", max_time);
         }
         document.getElementById("start-form").submit();
     }
