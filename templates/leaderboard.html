@@ -6,7 +6,7 @@
             background-image: url("{{url_for('static', filename='question_bg.jpg')}}");
         }
     </style>
-    <div class="text-white w-3/4 h-3/4 flex flex-col overflow-x-hidden overflow-y-auto max-h-5/6 backdrop-blur-sm p-1 rounded-lg"
+    <div class="text-white w-3/4 h-3/4 flex flex-col overflow-x-hidden overflow-y-auto max-h-5/6 backdrop-blur-sm p-1 rounded-lg transition-all ease-in duration-500"
         style="background-color: rgba(0, 0, 0, 0.7)">
         <div class="grid grid-cols-4 gap-4 mb-4">
             <div class="leaderboard-th">Rang</div>
@@ -25,6 +25,9 @@
                     <div class="leaderboard-td">{{ dataset['time'] }}</div>
                     <div class="leaderboard-td">{{ dataset['score'] }}</div>
                 </div>
+                <script>
+                    location.href = "#" + "{{ dataset['ID'] }}";
+                </script>
             {% else %}
             <div class="grid grid-cols-4 gap-4 h-16 rounded-lg">
                 <div id="{{ dataset['ID'] }}" class="flex justify-center items-center"></div>
