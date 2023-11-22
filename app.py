@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, Response, g, jsonify
+from flask import *
 import datetime
 import json
 import time
@@ -209,6 +209,21 @@ def validUser():
     username = request.get_json().get('username', '')
     is_taken = UserAlreadyExist(username)
     return jsonify({'taken': is_taken})
+
+@app.route('/delete/<user_name>', methods=['DELETE'])
+def delete(user_name):
+    try:
+        con = sqlite3.connect(DATABASE)
+        cur = con.cursor()
+        command = f"DELETE FROM leaderboard WHERE username = \"{user_name}\""
+        print(command)
+        cur.execute(command)
+        cur.close()
+        con.commit()
+        con.close()
+        return "Success\r\n"
+    except sqlite3.Error as error:
+        return "Error\r\n"
 
 if __name__ == '__main__':
     context = ('localhost.pem', 'localhost-key.pem')
