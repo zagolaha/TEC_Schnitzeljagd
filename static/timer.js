@@ -13,7 +13,7 @@ window.onload = function () {
 
             // check if timer finished
             if (time_diff >= max_time) {
-                goEnd();
+                location.href = "/end";
                 clearInterval(interval);
                 localStorage.setItem("start_timer", "0");
             } else {
@@ -25,17 +25,17 @@ window.onload = function () {
                     var min = Math.floor(time_diff / 60);
                     var sec = Math.floor(time_diff % 60);
 
-                    if(min < 10){
+                    if (min < 10) {
                         min = "0" + min.toString();
                     }
 
-                    if(sec < 10){
+                    if (sec < 10) {
                         sec = "0" + sec.toString();
                     }
 
                     var danger_time = 1*60;
 
-                    if(time_diff >= danger_time){
+                    if (time_diff >= danger_time) {
                        document.getElementById("time-bg").style.backgroundColor = "rgb(153,27,27)";
                     }
                     display.innerHTML = min + ":" + sec;

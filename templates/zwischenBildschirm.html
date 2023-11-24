@@ -2,11 +2,7 @@
 {% block content %}
 	<div class="grid grid-rows-[auto,1fr,auto] bg-gradient-to-b from-Lightblue to-Darkblue w-screen h-screen">
 		<!-- Timer -->
-		<div class="flex flex-row items-center justify-center">
-			<div class="w-40 bg-Darkblue text-white rounded-b-lg">
-				<p class="text-lg text-center font-semibold"><span id="time">0:00</span></p>
-			</div>
-		</div>
+		{% include '_timer_.html' %}
 
 		<!-- QR icon -->
 		<div class="grid place-items-center">
@@ -29,7 +25,7 @@
 					<img src="/static/video-camera.svg" class="h-full ml-2 invert">
 					<span class="w-full text-center">Kamera</span>
 				</button>
-				<button class="flex-auto inline-flex items-center bg-[#285172] shadow-xl rounded-lg"
+				<button class="flex-auto inline-flex items-center bg-[#254a6f] shadow-xl rounded-lg"
 						onclick="endSession()">
 					<img src="/static/x-mark.svg" class="h-full ml-2 invert">
 					<span class="w-full text-center">Beenden</span>
@@ -41,11 +37,11 @@
 	<script>
 		function endSession() {
 			if (!confirm("Willst du die Sitzung wirklich beenden?")) {
-				return;
+				return; // do nothing if the user cancels
 			}
 
-			// set end timestamp
-			sessionStorage.setItem('end_time', Date.now());
+			// set end timestamp and abort
+			localStorage.setItem('end_time', Date.now() / 1000);
 			location.href = "/abort";
 		}
 	</script>

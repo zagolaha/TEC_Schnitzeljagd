@@ -9,7 +9,6 @@ app = Flask(__name__)
 app.secret_key = "cf7afb909ccf7fc842f44eaf70bfbc9360fa80832e3f9b457586a74b46d0e35f"
 DATABASE = 'static/leaderboard.db'
 
-# styling components
 json_questions = json.load(open("static/questions.json", encoding='utf-8'))
 quiz_length = len(json_questions["questions"])
 
@@ -20,7 +19,7 @@ def getStringScore():
         return str((session['counter']/quiz_length)*100) + "%"
 
 def getStringOverallScore():
-    global quiz_length
+    # global quiz_length
     if 'counter' in session:
         return str(session['counter']) + "/" + str(quiz_length)
 
@@ -37,7 +36,7 @@ def addID(qr_id):
 
 def checkTime():
     if 'start_time' in session:
-        user_time = int(json_questions["time"][0])*60 + int(json_questions["time"][1])
+        user_time = int(json_questions["time"]) * 60
         time_diff = time.time() - session['start_time']
         if time_diff >= user_time:
             return True 
@@ -101,6 +100,9 @@ def UserAlreadyExist(username):
             return "Benutzername ist frei"
     else:
         return "Benutzername muss min. 2 Zeichen haben"
+    
+def calculateScore(seconds):
+    return round((json_questions["time"] * 60 - seconds) * session['counter'])
 # functions
 
 @app.teardown_appcontext
@@ -116,9 +118,8 @@ def index():
         session['counter'] = 0
     if 'answer_ids' not in session:
         session['answer_ids'] = ""
-    max_min = json_questions["time"][0]
-    max_sec = json_questions["time"][1]
-    return render_template("index.html", max_min = max_min, max_sec = max_sec)
+    max_min = json_questions["time"]
+    return render_template("index.html", max_min = max_min)
 
 # Verarbeite antwort
 @app.route("/handle_answer", methods=['POST'])
@@ -171,7 +172,7 @@ def start():
        session['start_time'] = time.time()
     if 'username' not in session:
        session['username'] = html.escape(request.form.get("username"))
-    return redirect(url_for('scan'))
+    return redirect("/zwischenBildschirm")
 
 # Hinweisseite
 @app.route("/error")
@@ -184,8 +185,9 @@ def error():
 def end():
     if checkEnd() or checkTime():
         seconds = time.time() - session['start_time']
-        insertUser(session['username'], getTimeFormat(seconds), 45)
-        return render_template("end.html", score=getStringOverallScore(), time=getTimeFormat(seconds))
+        score = calculateScore(seconds)
+        insertUser(session['username'], getTimeFormat(seconds), score)
+        return render_template("end.html", right_answers=getStringOverallScore(), time=getTimeFormat(seconds), score=score)
     else:
         return redirect(url_for("error", error="Bitte beende erst das Quiz"))
     
@@ -193,8 +195,9 @@ def end():
 def abort():
     # copy & pasted from above, change both occurences if needed
     seconds = time.time() - session['start_time']
-    insertUser(session['username'], getTimeFormat(seconds), 45)
-    return render_template("end.html", score=getStringOverallScore(), time=getTimeFormat(seconds))
+    score = calculateScore(seconds)
+    insertUser(session['username'], getTimeFormat(seconds), calculateScore(seconds))
+    return render_template("end.html", right_answers=getStringOverallScore(), time=getTimeFormat(seconds), score=score)
 
 # Leaderboard
 @app.route("/leaderboard")

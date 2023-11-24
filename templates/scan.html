@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
     <script src="/static/qr-scanner.umd.min.js"></script>
+    {% include '_timer_.html' %}
+
     <video id="videoElem"></video>
     <form id="scan-form" method="post" action="{{url_for('question')}}">
         <input type="hidden" value="" id="qr-value"  name="qr-value">
     </form>
     <script>
+        document.body.classList.add("bg-black");
+
         function sendData(data){
             document.getElementById("qr-value").value = data;
             document.getElementById("scan-form").submit();
@@ -22,7 +26,6 @@
             }, // or `returnDetailedScanResult: true´ for no options
         );
         //qrScanner.setCamera('environment');
-        // Funktioniert nicht, da kein https
         QRscanner.setInversionMode("both");
         QRscanner.start();
     </script>

@@ -1,60 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="raw-bg w-screen h-screen flex justify-center items-center bg-center bg-cover bg-no-repeat">
-    <style>
-        .raw-bg {
-            background-image: url("{{url_for('static', filename='question_bg.jpg')}}");
-        }
-    </style>
-    <div class="text-white w-3/4 h-3/4 flex flex-col overflow-x-hidden overflow-y-auto max-h-5/6 backdrop-blur-sm p-1 rounded-lg transition-all ease-in duration-500"
-        style="background-color: rgba(0, 0, 0, 0.7)">
-        <div class="grid grid-cols-4 gap-4 mb-4">
-            <div class="leaderboard-th">Rang</div>
-            <div class="leaderboard-th">Name</div>
-            <div class="leaderboard-th">Zeit</div>
-            <div class="leaderboard-th">Punktzahl</div>
-        </div>
-        <script>
-            var counter = 1;
-        </script>
-        {% for dataset in data %}
-            {% if user_id == dataset['ID'] %}
-                <div class="grid grid-cols-4 gap-4 h-16 rounded-lg bg-Lightblue">
-                    <div id="{{ dataset['ID'] }}" class="flex justify-center items-center"></div>
-                    <div class="leaderboard-td">{{ dataset['username'] }}</div>
-                    <div class="leaderboard-td">{{ dataset['time'] }}</div>
-                    <div class="leaderboard-td">{{ dataset['score'] }}</div>
-                </div>
-                <script>
-                    location.href = "#" + "{{ dataset['ID'] }}";
-                </script>
-            {% else %}
-            <div class="grid grid-cols-4 gap-4 h-16 rounded-lg">
-                <div id="{{ dataset['ID'] }}" class="flex justify-center items-center"></div>
-                <div class="leaderboard-td">{{ dataset['username'] }}</div>
-                <div class="leaderboard-td">{{ dataset['time'] }}</div>
-                <div class="leaderboard-td">{{ dataset['score'] }}</div>
-            </div>
-            {% endif %}
-        <script>
-            document.getElementById("{{ dataset['ID'] }}").innerHTML = counter;
-            console.log("{{ user_id }}");
-            counter++;
-        </script>
-        {%endfor%}
-    </div>
-    <div class="nav-btn-div">
-        <button onclick="goHome()" class="nav-btn">Home</button>
-    </div>
+<div class="raw-bg w-screen h-screen flex justify-center items-center bg-center bg-cover bg-no-repeat"
+	style="background-image: url('/static/question_bg.jpg');">
+	<div class="text-white w-3/4 h-3/4 flex flex-col overflow-x-hidden overflow-y-auto max-h-5/6 backdrop-blur-sm p-1 rounded-lg transition-all ease-in duration-500"
+		style="background-color: rgba(0, 0, 0, 0.7)">
+		<div class="grid grid-cols-4 gap-4 mb-4">
+			<div class="leaderboard-th">Rang</div>
+			<div class="leaderboard-th">Name</div>
+			<div class="leaderboard-th">Zeit</div>
+			<div class="leaderboard-th">Punktzahl</div>
+		</div>
+		<script>
+			var counter = 1;
+		</script>
+		{% for dataset in data %}
+			{% if user_id == dataset['ID'] %}
+				<div class="grid grid-cols-4 gap-4 h-16 rounded-lg bg-Lightblue">
+					<div id="{{ dataset['ID'] }}" class="flex justify-center items-center"></div>
+					<div class="leaderboard-td">{{ dataset['username'] }}</div>
+					<div class="leaderboard-td">{{ dataset['time'] }}</div>
+					<div class="leaderboard-td">{{ dataset['score'] }}</div>
+				</div>
+				<script>
+					location.href = "#" + "{{ dataset['ID'] }}";
+				</script>
+			{% else %}
+			<div class="grid grid-cols-4 gap-4 h-16 rounded-lg">
+				<div id="{{ dataset['ID'] }}" class="flex justify-center items-center"></div>
+				<div class="leaderboard-td">{{ dataset['username'] }}</div>
+				<div class="leaderboard-td">{{ dataset['time'] }}</div>
+				<div class="leaderboard-td">{{ dataset['score'] }}</div>
+			</div>
+			{% endif %}
+		<script>
+			document.getElementById("{{ dataset['ID'] }}").innerHTML = counter;
+			console.log("{{ user_id }}");
+			counter++;
+		</script>
+		{%endfor%}
+	</div>
+	<button onclick="location.href='/resetSession';" class="btn-green">Home</button>
 </div>
-<script>
-    function goHome() {
-        window.location.href = "{{ url_for('index') }}"
-    }
-</script>
 <style>
-    ::-webkit-scrollbar {
-        display: none;
-    }
+	::-webkit-scrollbar {
+		display: none;
+	}
 </style>
 {% endblock %}

@@ -6,16 +6,10 @@
 	<meta charset="UTF-8">
 	<title>TEC Schnitzeljagd</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://cdn.tailwindcss.com"></script>
 	<link href="/static/output.css" rel="stylesheet">
 </head>
 <body style="overflow-x: hidden;">
 	{% block content %}{% endblock %}
-	<script>
-		function goEnd(){
-			location.href = "{{url_for('end')}}";
-		}
-	</script>
-	<script src="{{ url_for('static', filename='timer.js') }}"></script>
+	<script src="/static/timer.js"></script>
 </body>
 </html>
