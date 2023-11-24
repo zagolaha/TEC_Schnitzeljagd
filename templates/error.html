@@ -16,12 +16,9 @@
                 <p class="text-white text-2xl">{{error}}</p>
             </div>
         </div>
-        <button onclick="redirectUser()"
-            class="m-4 hover:drop-shadow-xl w-3/4 p-3 bg-Lightgreen opacity-90 backdrop-blur-lg text-white rounded-md text-xl">Weitermachen</button>
+        <button onclick="location.href='/zwischenBildschirm';"
+            class="m-4 hover:drop-shadow-xl w-3/4 p-3 bg-Lightgreen opacity-90 backdrop-blur-lg text-white rounded-md text-xl">
+            Weitermachen
+        </button>
     </div>
-    <script>
-        function redirectUser(){
-            location.href = "{{url_for('scan')}}";
-        }
-    </script>
 {% endblock %}

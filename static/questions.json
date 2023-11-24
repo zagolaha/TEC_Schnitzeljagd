@@ -2,10 +2,54 @@
     "questions": [
         {
             "question": "Wie viele Schrauben sind im TEC verbaut?",
-            "answers": ["24 000", "4 500", "500", "1 200"],
-            "solution": 0,
-            "explanation": "Erklärung..."
+            "answers": ["500", "1.200", "4.500", "24.000"],
+            "solution": 3
+        },
+        {
+            "question": "Wie viele Personen passen in die Aula?",
+            "answers": ["150", "200", "250", "300"],
+            "solution": 2
+        },
+        {
+            "question": "Wie viel Geld hat TRUMPF ins TEC investiert?",
+            "answers": ["10,5 Mio. €", "13,0 Mio. €", "15,4 Mio. €", "17,7 Mio. €"],
+            "solution": 1
+        },
+        {
+            "question": "Wie viele Kabel sind hier verbaut?",
+            "answers": ["10 km", "20 km", "30 km", "40 km"],
+            "solution": 3
+        },
+        {
+            "question": "Wie viel Holz ist hier verbaut?",
+            "answers": ["900 m³", "1500 m³", "2000 m³", "2500 m³"],
+            "solution": 0
+        },
+        {
+            "question": "Welchen Neigungswinkel haben die Einlegeböden im Leergutregal?",
+            "answers": ["12°", "16,6°", "25,5°", "30°"],
+            "solution": 1
+        },
+        {
+            "question": "Wie viel Killowattpeak erzeugt die Photovoltaik-Anlage auf dem Dach?",
+            "answers": ["80 kWp", "100 kWp", "120 kWp", "150 kWp"],
+            "solution": 3
+        },
+        {
+            "question": "Wie viele verschiedene Berufe bildet TRUMPF aus?",
+            "answers": ["7", "13", "15", "17"],
+            "solution": 2
+        },
+        {
+            "question": "Wie viele Azubis und Studenten werden aktuell ausgebildet?",
+            "answers": ["215", "262", "286", "304"],
+            "solution": 1
+        },
+        {
+            "question": "Welche dieser Technologien setzt TRUMPF NICHT ein?",
+            "answers": ["Laserschweißen", "Laserschneiden", "Additive Manufacturing", "LASIK"],
+            "solution": 3
         }
     ],
-    "time" : ["02", "00"]
+    "time": 1
 }

@@ -3,5 +3,4 @@ node_modules/
 mkcert.exe
 localhost.pem
 localhost-key.pem
-static/output.css
 static/leaderboard.db

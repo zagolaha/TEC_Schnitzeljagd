@@ -1,56 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="img-end flex items-center flex-col justify-center w-screen h-screen bg-center bg-cover bg-no-repeat">
-    <style>
-        .img-end {
-            background-image: url("{{url_for('static', filename='raw_bg.png')}}");
-        }
-    </style>
-    <div class="w-3/4 h-3/4">
-        <div class="end-main-div">
-            <div class="end-main-div-child"
-            style="background-color: rgba(0, 0, 0, 0.7)">
-                <div style="background-color: rgba(0, 0, 0, 0.7)" class="end-inline-div">
-                    <h1>Zeit</h1>
-                </div>
-                <div class="h-3/4 w-full text-2xl flex justify-center items-center">
-                    <h1>{{ time }}</h1>
-                </div>
-            </div>
-        </div>
-        <div class="end-main-div">
-            <div class="end-main-div-child"
-            style="background-color: rgba(0, 0, 0, 0.7)">
-                <div style="background-color: rgba(0, 0, 0, 0.7)" class="end-inline-div">
-                    <h1>Richtige Antworten</h1>
-                </div>
-                <div class="h-3/4 w-full text-2xl flex justify-center items-center">
-                    <h1>{{ score }}</h1>
-                </div>
-            </div>
-        </div>
-        <div class="end-main-div">
-            <div class="end-main-div-child"
-            style="background-color: rgba(0, 0, 0, 0.7)">
-                <div style="background-color: rgba(0, 0, 0, 0.7)" class="end-inline-div">
-                    <h1>Gesamtpunktzahl</h1>
-                </div>
-                <div class="h-3/4 w-full text-2xl flex justify-center items-center">
-                    <h1>4500</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="nav-btn-div">
-        <button class="nav-btn" onclick="toLeaderboard()">Zum Leaderboard</button>
-    </div>
+<div class="flex items-center flex-col justify-center w-screen h-screen bg-center bg-cover bg-no-repeat"
+	style="background-image: url('/static/raw_bg.png');">
+	<div class="w-3/4 h-3/4">
+		<div class="end-main-div">
+			<div class="end-main-div-child"
+			style="background-color: rgba(0, 0, 0, 0.7)">
+				<div style="background-color: rgba(0, 0, 0, 0.7)" class="end-inline-div">
+					<h1>Zeit</h1>
+				</div>
+				<div class="h-3/4 w-full text-2xl flex justify-center items-center">
+					<h1>{{ time }}</h1>
+				</div>
+			</div>
+		</div>
+		<div class="end-main-div">
+			<div class="end-main-div-child"
+			style="background-color: rgba(0, 0, 0, 0.7)">
+				<div style="background-color: rgba(0, 0, 0, 0.7)" class="end-inline-div">
+					<h1>Richtige Antworten</h1>
+				</div>
+				<div class="h-3/4 w-full text-2xl flex justify-center items-center">
+					<h1>{{ right_answers }}</h1>
+				</div>
+			</div>
+		</div>
+		<div class="end-main-div">
+			<div class="end-main-div-child"
+			style="background-color: rgba(0, 0, 0, 0.7)">
+				<div style="background-color: rgba(0, 0, 0, 0.7)" class="end-inline-div">
+					<h1>Gesamtpunktzahl</h1>
+				</div>
+				<div class="h-3/4 w-full text-2xl flex justify-center items-center">
+					<h1>{{ score }}</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="nav-btn-div">
+		<button class="nav-btn" onclick="toLeaderboard()">Zum Leaderboard</button>
+	</div>
 </div>
 <script>
-    localStorage.setItem("start_timer", "0");
-    function toLeaderboard() {
-        window.location.href = "{{ url_for('leaderboard') }}";
-    }
+	localStorage.setItem("start_timer", "0");
+	function toLeaderboard() {
+		window.location.href = "{{ url_for('leaderboard') }}";
+	}
 </script>
 
 {% endblock %}
