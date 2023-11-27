@@ -206,7 +206,7 @@ def leaderboard():
     leaderboard = getLeaderboard()
     if user_id == None:
         return redirect(url_for("error", error="Benutzername nicht gefunden"))
-    return render_template("leaderboard.html", data=leaderboard, user_id = user_id)
+    return render_template("leaderboard.html", dataset=leaderboard, user_id = user_id)
 
 # validate user
 @app.route("/validUser", methods=['POST'])

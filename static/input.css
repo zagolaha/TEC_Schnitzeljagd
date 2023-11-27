@@ -8,13 +8,6 @@
 	.answerBtn {
 		@apply w-10/12 h-14 shadow-lg text-xl font-semibold text-center rounded-lg bg-Lightgray;
 	}
-	/* Leaderboard */
-	.leaderboard-th{
-		@apply p-1 flex justify-center items-center text-base font-semibold;
-	}
-	.leaderboard-td{
-		@apply flex justify-center items-center text-lg p-2;
-	}
 	/* All pages */
 	.nav-btn-div{
 		@apply absolute bottom-0 flex justify-center items-center w-full flex-col gap-0;
