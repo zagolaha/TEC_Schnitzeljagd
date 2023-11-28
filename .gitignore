@@ -1,6 +1,2 @@
 __pycache__/
 node_modules/
-mkcert.exe
-localhost.pem
-localhost-key.pem
-static/leaderboard.db

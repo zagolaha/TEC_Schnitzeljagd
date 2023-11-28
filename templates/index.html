@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="grid grid-rows-1 w-screen h-screen px-4 bg-center bg-cover bg-no-repeat"
+<div class="pt-2 grid grid-flow-row gap-4 w-screen h-screen px-2 bg-center bg-cover bg-no-repeat"
 	style="background-image: url('/static/raw_bg.png');">
-	<div class="flex flex-col w-full h-80 place-self-center bg-black/70 backdrop-blur-sm rounded-lg">
-		<h3 class="p-5 text-white text-center text-xl rounded-t-lg bg-black/50">TEC-Schnitzeljagd</h3>
+	<div class="black-header flex flex-col w-full h-80 place-self-center bg-black/70 backdrop-blur-sm rounded-lg">
+		<h3 class="p-2 text-white text-center text-xl rounded-t-lg bg-black/50">TEC-Schnitzeljagd</h3>
 		<div class="mx-2 grow flex flex-col justify-center text-center">
 			<p class="text-white text-base">
-				Willkommen bei der TEC-Schnitzeljagd. Es sind 10 QR-Codes versteckt. Finde und scanne sie ein,
+				Willkommen bei der TEC-Schnitzeljagd. Es sind {{ quiz_length }} QR-Codes versteckt. Finde und scanne sie ein,
 				um zu den Fragen zu gelangen.<br>
-				Gib den Namen ein, der auf dem Leaderboard erscheinen soll.
+				Gib nun den Namen ein, der am Ende auf dem Leaderboard erscheinen soll.<br>
+				Das Quiz ist auf <span id="dauer">{{ max_min }}</span> Minuten ausgelegt.
 			</p>
 			<form action="/start" id="start-form" method="post">
+				<!-- TODO: re-do this -->
 				<input name="username" id="username_input" type="text" placeholder="Benutzername"
 					class="bg-black appearance-none border-2 rounded mt-2 py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline">
 				<p class="text-sm" id="hint"></p>
@@ -18,7 +20,11 @@
 		</div>
 	</div>
 
-	<button disabled id="start_use" onclick="redirectUser()" type="button" class="btn-green mb-2 grayscale">
+	<div class="max-h-96 overflow-y-auto backdrop-blur-sm rounded-lg">
+		{% include '_leaderboard_.html' %}
+	</div>
+
+	<button disabled id="start_use" onclick="redirectUser()" type="button" class="btn-green mt-auto mb-2 grayscale">
 		Quiz beginnen
 	</button>
 </div>

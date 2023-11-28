@@ -1,24 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="flex justify-center items-center absolute top-0 w-full h-1/12">
-	<div class="bg-Darkblue w-1/2 h-full text-center text-white rounded-b-lg">
-		<p class="text-lg"><span id="time"></span></p>
+<div class="grid grid-col-[auto,1fr,auto] px-2 bg-gradient-to-b from-Lightblue to-Darkblue w-screen h-screen">
+	<div class="mb-auto">
+		{% include '_timer_.html' %}
 	</div>
+
+	<div class="flex flex-col text-white text-center">
+		<h1 class="w-full mb-auto py-2 bg-black/90 text-lg font-semibold rounded-t-lg">Hinweis</h1>
+		<p class="h-full flex items-center justify-center bg-black/70 rounded-b-lg text-center">{{ error }}</p>
+	</div>
+
+	<button onclick="location.href='/zwischenBildschirm';" type="button"
+		class="btn-green mt-auto mb-2">
+		Weiter
+	</button>
 </div>
-    <div class="flex-col flex justify-center items-center bg-gradient-to-b from-Lightblue to-Darkblue w-screen h-screen">
-        <div class="flex flex-col justify-center w-3/4 h-2/4 rounded-lg bg-black backdrop-blur-sm"
-            style="background-color: rgba(0, 0, 0, 0.7);">
-            <div class="flex justify-center items-center h-1/5 rounded-t-lg"
-                style="background-color: rgba(0, 0, 0, 0.5);">
-                <h3 class="text-white  p-5 text-2xl">Hinweis</h3>
-            </div>
-            <div class="flex justify-center items-center text-center h-4/5">
-                <p class="text-white text-2xl">{{error}}</p>
-            </div>
-        </div>
-        <button onclick="location.href='/zwischenBildschirm';"
-            class="m-4 hover:drop-shadow-xl w-3/4 p-3 bg-Lightgreen opacity-90 backdrop-blur-lg text-white rounded-md text-xl">
-            Weitermachen
-        </button>
-    </div>
 {% endblock %}

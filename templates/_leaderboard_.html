@@ -2,17 +2,17 @@
 <script>var rank = 1;</script>
 <table class="w-full text-white text-center">
 	<tr class="bg-black/90">
-		<th>Rang</th>
+		<th class="py-2">Rang</th>
 		<th>Name</th>
 		<th>Zeit</th>
-		<th>Punktzeit</th>
+		<th>Punktzahl</th>
 	</tr>
 	{% for data in dataset %}
 	<tr class="{{ 'bg-Lightblue/75' if user_id==data['ID'] else 'bg-black/70' }}">
 		<td class="py-2" id="{{ data['ID'] }}"></td>
-		<td class="">{{ data['username'] }}</td>
-		<td class="">{{ data['time'] }}</td>
-		<td class="">{{ data['score'] }}</td>
+		<td>{{ data['username'] }}</td>
+		<td>{{ data['time'] }}</td>
+		<td>{{ data['score'] }}</td>
 	</tr>
 	<script>
 		document.getElementById("{{ data['ID'] }}").innerHTML = rank;

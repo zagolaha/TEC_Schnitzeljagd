@@ -4,14 +4,7 @@
 @tailwind utilities;
 
 @layer components {
-	/* Frageseite */
-	.answerBtn {
-		@apply w-10/12 h-14 shadow-lg text-xl font-semibold text-center rounded-lg bg-Lightgray;
-	}
 	/* All pages */
-	.nav-btn-div{
-		@apply absolute bottom-0 flex justify-center items-center w-full flex-col gap-0;
-	}
 	.btn-green{
 		@apply w-full py-2 bg-Lightgreen backdrop-blur-lg opacity-90 text-white text-lg rounded-md;
 	}

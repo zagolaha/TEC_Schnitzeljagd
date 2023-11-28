@@ -33,10 +33,10 @@ window.onload = function () {
                         sec = "0" + sec.toString();
                     }
 
-                    var danger_time = 1*60;
+                    var danger_time = 0.75 * max_time;
 
                     if (time_diff >= danger_time) {
-                       document.getElementById("time-bg").style.backgroundColor = "rgb(153,27,27)";
+                       document.getElementById("timer").style.backgroundColor = "rgb(153,27,27)";
                     }
                     display.innerHTML = min + ":" + sec;
                 }

@@ -9,7 +9,7 @@
 		</div>
 		<div class="w-full backdrop-blur-sm">
 			<h1 class="py-1 bg-black/90 text-lg text-center rounded-t-lg">Richtige Antworten</h1>
-			<p class="py-4 bg-black/70 text-center rounded-b-lg">{{ right_answers }}</p>
+			<p class="py-4 bg-black/70 text-center rounded-b-lg">{{ right_answers }}/{{ quiz_length }}</p>
 		</div>
 		<div class="w-full backdrop-blur-sm">
 			<h1 class="py-1 bg-black/90 text-lg text-center rounded-t-lg">Gesamtpunktzahl</h1>
@@ -20,5 +20,7 @@
 </div>
 <script>
 	localStorage.setItem("start_timer", "0");
+	localStorage.setItem("right_answers", "0");
+	localStorage.setItem("answered_questions", "0");
 </script>
 {% endblock %}

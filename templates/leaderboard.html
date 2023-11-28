@@ -2,7 +2,7 @@
 {% block content %}
 <div class="px-2 grid grid-rows-1 items-center w-screen h-screen bg-center bg-cover bg-no-repeat"
 	style="background-image: url('/static/raw_bg.png');">
-	<div class="max-h-96 overflow-y-auto">
+	<div class="max-h-96 overflow-y-auto rounded-lg">
 		{% include '_leaderboard_.html' %}
 	</div>
 	<button class="btn-green mt-auto mb-2" onclick="location.href='/resetSession';" type="button">

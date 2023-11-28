@@ -15,8 +15,10 @@
 		<!-- Bottom -->
 		<div class="mx-4 max-w-screen">
 			<div class="relative h-6 bg-Lightgray rounded-lg">
-				<div class="w-0 h-6 absolute bg-Lightgreen rounded-md"></div>
-				<p class="absolute right-0 pt-1 mr-2 font-semibold leading-none">{{ score }}</p>
+				<div id="progress-bar" class="w-0 h-6 absolute bg-Lightgreen rounded-md"></div>
+				<p class="absolute right-0 pt-1 mr-2 font-semibold leading-none">
+					<span id="count"></span>/{{ quiz_length }}
+				</p>
 			</div>
 
 			<div class="my-4 h-12 text-white flex gap-4">
@@ -35,13 +37,17 @@
 	</div>
 
 	<script>
+		var quiz_length = parseInt("{{ quiz_length }}");
+		document.getElementById("progress-bar").style.width = String(parseInt(localStorage.getItem("answered_questions")) / quiz_length * 100) + "%"
+		document.getElementById("count").innerText = localStorage.getItem("answered_questions");
+
 		function endSession() {
 			if (!confirm("Willst du die Sitzung wirklich beenden?")) {
 				return; // do nothing if the user cancels
 			}
 
 			// set end timestamp and abort
-			localStorage.setItem('end_time', Date.now() / 1000);
+			localStorage.setItem('end_time', Math.floor(Date.now() / 1000));
 			location.href = "/abort";
 		}
 	</script>
